@@ -34,11 +34,14 @@ public class CRUD extends JFrame {
         }
 
     }
+
+    // Clear text inside the text field when implement function
     private void Clear(){
         idTextField.setText("");
         nameTextField.setText("");
     }
 
+    // Disable all button when compile project
     private void DisableAllBtn() {
         idTextField.setEnabled(false);
         nameTextField.setEnabled(false);
@@ -49,6 +52,7 @@ public class CRUD extends JFrame {
         ageSpinner.setEnabled(false);
     }
 
+    // Choose add function
     private void saveFunctionRadioBtn(ActionEvent e) {
         // TODO add your code here
         tblStudent.setEnabled(false);
@@ -63,6 +67,7 @@ public class CRUD extends JFrame {
         updateRadioButton.setEnabled(true);
     }
 
+    // Choose delete function
     private void deleteRadioBtn(ActionEvent e) {
         // TODO add your code here
         idTextField.setEnabled(false);
@@ -77,6 +82,7 @@ public class CRUD extends JFrame {
         ageSpinner.setEnabled(false);
     }
 
+    // Choose update function
     private void updateRadioBtn(ActionEvent e) {
         // TODO add your code here
         addBtn.setEnabled(false);
@@ -91,6 +97,7 @@ public class CRUD extends JFrame {
         idTextField.setEnabled(false);
     }
 
+    // add function
     private void addBtn(ActionEvent e) {
         // TODO add your code here
         String id = idTextField.getText().trim();
@@ -116,6 +123,7 @@ public class CRUD extends JFrame {
         }
     }
 
+    // delete function
     private void deleteBtn(ActionEvent e) throws Exception{
         // TODO add your code here
         String id = idTextField.getText().trim();
@@ -130,6 +138,7 @@ public class CRUD extends JFrame {
         returnUserToTable(readFile());
     }
 
+    // update function
     private void updateBtn(ActionEvent e) {
         // TODO add your code here
         String id = idTextField.getText().trim();
@@ -154,6 +163,8 @@ public class CRUD extends JFrame {
             return;
         }
     }
+
+    // search function
     private void searchBtn(ActionEvent e) {
         String id = searchTextField.getText().trim();
         if (!id.isEmpty()){
@@ -173,6 +184,7 @@ public class CRUD extends JFrame {
         }
     }
 
+    // sort ascending by ID function
     private void sortARadioBtn(ActionEvent e){
         sortDRadioBtn.setEnabled(true);
         sortARadioBtn.setEnabled(false);
@@ -185,6 +197,8 @@ public class CRUD extends JFrame {
         clearTableContents();
         returnUserToTable(readFile());
     }
+
+    // sort descending by ID function
     private void sortDRadioBtn(ActionEvent e) {
         sortDRadioBtn.setEnabled(false);
         sortARadioBtn.setEnabled(true);
@@ -198,11 +212,13 @@ public class CRUD extends JFrame {
         returnUserToTable(readFile());
     }
 
-
+    // clear all the contents of table
     public void clearTableContents(){
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblStudent.getModel();
         defaultTableModel.setRowCount(0);
     }
+
+    // write from list to file
     public void writeToFile (ArrayList<User> _users){
         try{
             FileWriter fw = new FileWriter(dbFile);
@@ -219,6 +235,8 @@ public class CRUD extends JFrame {
             exception.printStackTrace();
         }
     }
+
+    // read file
     public Object[] readFile(){
         Object[] objects;
         try {
@@ -233,6 +251,8 @@ public class CRUD extends JFrame {
         }
         return null;
     }
+
+    // return user by Object array
     public void returnUserToTable(Object[] objects){
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblStudent.getModel();
         int i = 0;
@@ -243,11 +263,15 @@ public class CRUD extends JFrame {
             i++;
         }
     }
+
+    // return user by Object
     public void returnFindedUserToTable(User user){
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblStudent.getModel();
         String[] findedUser = user.toString().split(",");
         defaultTableModel.addRow(findedUser);
     }
+
+    // Check id of Student
     public boolean CheckId(String id){
         for (User user : _users) {
             if (user.getId().equals(id)) {
@@ -256,6 +280,8 @@ public class CRUD extends JFrame {
         }
         return false;
     }
+
+    // Check age of Student
     public boolean CheckAge(int age){
         if (age <= 0 && age >=100){
             return true;
@@ -263,8 +289,8 @@ public class CRUD extends JFrame {
         return false;
     }
 
-
-private void initComponents() {
+    // interface
+    private void initComponents() {
     // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
     // Generated using JFormDesigner Evaluation license - Quoc
     label1 = new JLabel();
@@ -507,7 +533,7 @@ private void initComponents() {
 
 
 
-
+    // JFormDesigner - Start of variables declaration  //GEN-END:variables
     private JLabel label1;
     private JLabel label2;
     private JTextField idTextField;
@@ -515,16 +541,7 @@ private void initComponents() {
     private JScrollPane scrollPane1;
     private JTable tblStudent;
     private JLabel label4;
-   private JSpinner ageSpinner;
-//    private JLabel label5;
-//    private JComboBox genderComboBox;
-//    private JComboBox stdAca10ComboBox;
-//    private JLabel label7;
-//    private JLabel label8;
-//    private JLabel label9;
-//    private JComboBox stdAca11ComboBox;
-//    private JLabel label10;
-//    private JComboBox stdAca12ComboBox;
+    private JSpinner ageSpinner;
     private JPanel hSpacer1;
     private JPanel panel1;
     private JRadioButton updateRadioButton;
@@ -536,21 +553,10 @@ private void initComponents() {
     private JLabel label3;
     private JTextField searchTextField;
     private JButton searchBtn;
-   private JRadioButton sortARadioBtn;
+    private JRadioButton sortARadioBtn;
     private JRadioButton sortDRadioBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
-
-
-////---- saveRadioButton ----
-//        saveRadioButton.setText("Save function");
-//                saveRadioButton.addActionListener(e -> saveFunctionRadioBtn(e));
-//                //---- radioButton2 ----
-//                deteleRadioButton.setText("Delete function");
-//                deteleRadioButton.addActionListener(e -> deleteRadioBtn(e));
-//                //---- radioButton3 ----
-//                updateRadioButton.setText("Update Function");
-//                updateRadioButton.addActionListener(e -> updateRadioBtn(e));
 
 
 
