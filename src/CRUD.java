@@ -10,10 +10,7 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CRUD extends JFrame {
     ArrayList<User> _users = new ArrayList<>();
@@ -179,16 +176,26 @@ public class CRUD extends JFrame {
     private void sortARadioBtn(ActionEvent e){
         sortDRadioBtn.setEnabled(true);
         sortARadioBtn.setEnabled(false);
-//        Arrays.sort(_users,);
-//        for (User user: _users
-//        ) {
-//
-//        }
-
+        Collections.sort(_users, new Comparator<User>() {
+            public int compare(User s1, User s2) {
+                return s1.getId().compareTo(s2.getId());
+            }
+        });
+        writeToFile(_users);
+        clearTableContents();
+        returnUserToTable(readFile());
     }
     private void sortDRadioBtn(ActionEvent e) {
         sortDRadioBtn.setEnabled(false);
         sortARadioBtn.setEnabled(true);
+        Collections.sort(_users, new Comparator<User>() {
+            public int compare(User s1, User s2) {
+                return s2.getId().compareTo(s1.getId());
+            }
+        });
+        writeToFile(_users);
+        clearTableContents();
+        returnUserToTable(readFile());
     }
 
 
