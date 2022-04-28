@@ -275,10 +275,13 @@ public class CRUD extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        for (Student user : _students) {
-            if (user.getId().equals(id)) {
-                user.setName(name);
-                user.setGender(gender);
+        for (Student student : _students) {
+            if (student.getId().equals(id)) {
+                student.setName(name);
+                student.setGender(gender);
+                student.setBirthday(birthday);
+                student.setEmail(email);
+                student.setPhoneNumber(phoneNumber);
             }
         }
         writeToFile(_students);
