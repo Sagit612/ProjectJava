@@ -1,0 +1,135 @@
+JFDML JFormDesigner: "7.0.5.1.409" Java: "11.0.14.1" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp panel4:::::x, comp panel1:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp panel4:::p::p, space :::p, comp panel1:::::x, space :::p}}"
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp label2:::p::p, comp label1::l:p::p, comp label8::l:p::p, comp label9:::p::p, comp label7::l:p::p}, par l {par t:::p {seq t {par l:::p {comp nameTextField::::223:x, comp idTextField::l:::x}, space u:::p, par l {seq l {par l {comp label5::l:p::p, comp label4::l:p::p}, space :p:22:p, par t {comp emailTextField:::p:137:p, comp birthdayTextField:::p:137:p}}, seq l {comp label6:::p::p, space u:::p, comp phoneNumberTextField:::p:137:p}}}, seq l {space :p:11:p, comp searchIdTextField:::p:335:p}, seq l {space u:::p, par l {comp searchNameTextField:::p:335:p, seq l {comp searchBtn:::p::p, space :::x, comp sortARadioBtn:::p::p, space :p:14:p}}}}, seq l {comp maleRadioButton:::p::p, space s:::p, comp femaleRadioButton:::p::p}}, space :p:15:p, par l {seq {par l {comp addBtn:::p::p, comp deleteBtn:::p::p}, space u:::p, par l {comp saveRadioButton:::p::p, comp deleteRadioButton:::p::p}}, seq l {par t {comp clearBtn:::p::p, comp updateBtn:::p::p}, space u:::p, comp updateRadioButton:::p::p}, seq l {space :p:1:p, comp sortDRadioBtn:::p::p}}, space ::43:x}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp label4::b:p::p, comp addBtn::b:p::p, comp birthdayTextField::b:p::p, comp idTextField::b:p::p, comp label1::b:p::p, comp saveRadioButton::b:p::p}, space :p:7:p, par b {comp label5::b:p::p, comp emailTextField::b:p::p, comp label2::b:p::p, comp nameTextField::b:p::p, comp deleteRadioButton::b:p::p, comp deleteBtn::b:p::p}, space :::p, par l {par b {comp label6::b:p::p, comp phoneNumberTextField::b:p::p, comp updateBtn::b:p::p, comp updateRadioButton::b:p::p}, par b:t {comp label7::b:p::p, comp maleRadioButton::b:p::p, comp femaleRadioButton::b:p::p}}, space u:::p, par t {par b {comp sortARadioBtn::b:p::p, comp sortDRadioBtn::b:p::p}, seq {comp clearBtn:::p::p, space :::p, par b {comp label8::b:p::p, comp searchIdTextField::b:p::p}, space :::p, par b {comp label9::b:p::p, comp searchNameTextField::b:p::p}, space u:::p, comp searchBtn:::p::p}}, space ::12:x}}"
+			} ) {
+				name: "panel4"
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "idTextField"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "ID:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "Name:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "nameTextField"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "birthdayTextField"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": "Birthday(mm/dd/yy):"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label5"
+					"text": "Email(a@example.com):"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "emailTextField"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "addBtn"
+					"text": "Save"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "clearBtn"
+					"text": "Clear"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label6"
+					"text": "Phone Number(10 digits):"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "phoneNumberTextField"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label7"
+					"text": "Gender:"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "saveRadioButton"
+					"text": "Add Function"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "deleteBtn"
+					"text": "Delete"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "deleteRadioButton"
+					"text": "Delete Function"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "updateBtn"
+					"text": "Update"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "updateRadioButton"
+					"text": "Update Function"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "sortARadioBtn"
+					"text": "Sorting Asc"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "sortDRadioBtn"
+					"text": "Sorting Desc"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "searchIdTextField"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label8"
+					"text": "Search ID:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "searchNameTextField"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label9"
+					"text": "Search Name:"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "searchBtn"
+					"text": "Search"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "maleRadioButton"
+					"text": "Male"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "femaleRadioButton"
+					"text": "Female"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space :::p, comp scrollPane1::::905:x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp scrollPane1::::309:x, space :::p}}"
+			} ) {
+				name: "panel1"
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane1"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "tblStudent"
+					} )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 925, 640 )
+		} )
+	}
+}
