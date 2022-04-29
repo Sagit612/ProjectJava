@@ -18,17 +18,19 @@ import java.util.regex.Pattern;
 public class CRUD extends JFrame {
     ArrayList<Student> _students = new ArrayList<>();
     String dbFile = "database.txt";
+
     public static void main(String[] args) throws IOException {
         CRUD crud = new CRUD();
         crud.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         crud.setVisible(true);
     }
+
     public CRUD() throws IOException {
         initComponents();
         DisableAllBtn();
         returnStudentsToTable(readFile());
-        List<String> list = Files.readAllLines(new File(dbFile).toPath(), Charset.defaultCharset() );
-        for(String line : list){
+        List<String> list = Files.readAllLines(new File(dbFile).toPath(), Charset.defaultCharset());
+        for (String line : list) {
             String[] res = line.split(",");
             Student user = new Student(res[0], res[1], res[2], res[3], res[4], res[5]);
             _students.add(user);
@@ -37,7 +39,7 @@ public class CRUD extends JFrame {
     }
 
     // Clear text inside the text field when implement function
-    private void Clear(){
+    private void Clear() {
         idTextField.setText("");
         nameTextField.setText("");
         birthdayTextField.setText("");
@@ -135,46 +137,46 @@ public class CRUD extends JFrame {
         String birthday = birthdayTextField.getText().trim();
         String email = emailTextField.getText().trim();
         String phoneNumber = phoneNumberTextField.getText().trim();
-        if (femaleRadioButton.isSelected()){
+        if (femaleRadioButton.isSelected()) {
             gender = femaleRadioButton.getText().trim();
-        }else if (maleRadioButton.isSelected()){
+        } else if (maleRadioButton.isSelected()) {
             gender = maleRadioButton.getText().trim();
-        }else if (!femaleRadioButton.isSelected() && !maleRadioButton.isSelected()){
+        } else if (!femaleRadioButton.isSelected() && !maleRadioButton.isSelected()) {
             gender = "";
-        } else{
+        } else {
             gender = "";
         }
 
-        if (!id.isEmpty() && !name.isEmpty() && gender != "" && !birthday.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty()){
-            if (CheckId(id)){
+        if (!id.isEmpty() && !name.isEmpty() && gender != "" && !birthday.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty()) {
+            if (CheckId(id)) {
                 JOptionPane.showMessageDialog(null, "ID is duplicated", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckNameValid(name)){
+            } else if (!CheckNameValid(name)) {
                 JOptionPane.showMessageDialog(null, "Name is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckIdValid(id)){
+            } else if (!CheckIdValid(id)) {
                 JOptionPane.showMessageDialog(null, "ID is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckBirthday(birthday)){
+            } else if (!CheckBirthday(birthday)) {
                 JOptionPane.showMessageDialog(null, "Birthday is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((CheckEmail(email))){
+            } else if ((CheckEmail(email))) {
                 JOptionPane.showMessageDialog(null, "Email is duplicated", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if ((!CheckEmailValid(email))){
+            } else if ((!CheckEmailValid(email))) {
                 JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if ((!CheckPhoneNumberValid(phoneNumber))){
+            } else if ((!CheckPhoneNumberValid(phoneNumber))) {
                 JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if ((CheckPhone(phoneNumber))){
+            } else if ((CheckPhone(phoneNumber))) {
                 JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -186,28 +188,28 @@ public class CRUD extends JFrame {
             Clear();
             clearTableContents();
             returnStudentsToTable(readFile());
-        }else {
+        } else {
             if (id.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill ID Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (name.isEmpty()){
+            } else if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Name Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (gender == ""){
+            } else if (gender == "") {
                 JOptionPane.showMessageDialog(null, "Please choose gender", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (birthday.isEmpty()){
+            } else if (birthday.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Birthday Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (!email.isEmpty()){
+            } else if (!email.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Email Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (!phoneNumber.isEmpty()){
+            } else if (!phoneNumber.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Phone number Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -217,7 +219,7 @@ public class CRUD extends JFrame {
     }
 
     // delete function
-    private void deleteBtn(ActionEvent e) throws Exception{
+    private void deleteBtn(ActionEvent e) throws Exception {
         // TODO add your code here
         String id = idTextField.getText().trim();
         for (Student student : _students) {
@@ -240,76 +242,68 @@ public class CRUD extends JFrame {
         String birthday = birthdayTextField.getText().trim();
         String email = emailTextField.getText().trim();
         String phoneNumber = phoneNumberTextField.getText().trim();
-        if (femaleRadioButton.isSelected()){
+        if (femaleRadioButton.isSelected()) {
             gender = femaleRadioButton.getText().trim();
-        }else if (maleRadioButton.isSelected()){
+        } else if (maleRadioButton.isSelected()) {
             gender = maleRadioButton.getText().trim();
-        }else if (!femaleRadioButton.isSelected() && !maleRadioButton.isSelected()){
+        } else if (!femaleRadioButton.isSelected() && !maleRadioButton.isSelected()) {
             gender = "";
-        } else{
+        } else {
             gender = "";
         }
-        if (!id.isEmpty() && !name.isEmpty() && gender != "" && !birthday.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty()){
-            if (CheckId(id)){
-                JOptionPane.showMessageDialog(null, "ID is duplicated", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } else if (!CheckNameValid(name)){
+        if (!id.isEmpty() && !name.isEmpty() && gender != "" && !birthday.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty()) {
+            if (!CheckNameValid(name)) {
                 JOptionPane.showMessageDialog(null, "Name is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckIdValid(id)){
+            } else if (!CheckIdValid(id)) {
                 JOptionPane.showMessageDialog(null, "ID is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckBirthday(birthday)){
+            } else if (!CheckBirthday(birthday)) {
                 JOptionPane.showMessageDialog(null, "Birthday is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((CheckEmail(email))){
-                JOptionPane.showMessageDialog(null, "Email is duplicated", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }else if ((!CheckEmailValid(email))){
+            } else if ((!CheckEmailValid(email))) {
                 JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        for (Student student : _students) {
-            if (student.getId().equals(id)) {
-                student.setName(name);
-                student.setGender(gender);
-                student.setBirthday(birthday);
-                student.setEmail(email);
-                student.setPhoneNumber(phoneNumber);
+            for (Student student : _students) {
+                if (student.getId().equals(id)) {
+                    student.setName(name);
+                    student.setGender(gender);
+                    student.setBirthday(birthday);
+                    student.setEmail(email);
+                    student.setPhoneNumber(phoneNumber);
+                }
             }
-        }
-        writeToFile(_students);
-        Clear();
-        clearTableContents();
-        returnStudentsToTable(readFile());
-        }else {
+            writeToFile(_students);
+            Clear();
+            clearTableContents();
+            returnStudentsToTable(readFile());
+        } else {
             if (id.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill ID Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (name.isEmpty()){
+            } else if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Name Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (gender == ""){
+            } else if (gender == "") {
                 JOptionPane.showMessageDialog(null, "Please choose gender", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (birthday.isEmpty()){
+            } else if (birthday.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Birthday Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (!email.isEmpty()){
+            } else if (!email.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Email Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            }else if (!phoneNumber.isEmpty()){
+            } else if (!phoneNumber.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill Phone number Required", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -828,9 +822,9 @@ public class CRUD extends JFrame {
                         TableModel model = tblStudent.getModel();
                         idTextField.setText(model.getValueAt(i, 0).toString());
                         nameTextField.setText(model.getValueAt(i, 1).toString());
-                        birthdayTextField.setText(model.getValueAt(i, 2).toString());
-                        emailTextField.setText(model.getValueAt(i, 3).toString());
-                        phoneNumberTextField.setText(model.getValueAt(i, 4).toString());
+                        birthdayTextField.setText(model.getValueAt(i, 3).toString());
+                        emailTextField.setText(model.getValueAt(i, 4).toString());
+                        phoneNumberTextField.setText(model.getValueAt(i, 5).toString());
                     }
 
                 });
