@@ -222,9 +222,9 @@ public class CRUD extends JFrame {
     private void deleteBtn(ActionEvent e) throws Exception {
         // TODO add your code here
         String id = idTextField.getText().trim();
-        for (Student student : _students) {
-            if (student.getId().equals(id)) {
-                _students.remove(student);
+        for (int i = 0; i < _students.size(); i++) {
+            if (_students.get(i).getId().equals(id)) {
+                _students.remove(i);
             }
         }
         writeToFile(_students);
@@ -256,16 +256,16 @@ public class CRUD extends JFrame {
                 JOptionPane.showMessageDialog(null, "Name is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckIdValid(id)) {
-                JOptionPane.showMessageDialog(null, "ID is invalid", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
             } else if (!CheckBirthday(birthday)) {
                 JOptionPane.showMessageDialog(null, "Birthday is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((!CheckEmailValid(email))) {
+            } else if (!CheckEmailValid(email)) {
                 JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (!CheckPhoneNumberValid(phoneNumber)){
+                JOptionPane.showMessageDialog(null, "Phone is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -314,55 +314,38 @@ public class CRUD extends JFrame {
     // search function
     private void searchBtn(ActionEvent e) {
         String id = searchIdTextField.getText().trim();
-        String name = searchNameTextField.getText();
+        String name = searchNameTextField.getText().trim();
         clearTableContents();
         if (!id.isEmpty() && name.isEmpty()){
-            for (Student student: _students) {
-                if (student.getId().equals(id)) {
-                    Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
-                            , student.getEmail(), student.getPhoneNumber());
-                    clearTableContents();
-                    returnFindedStudentsToTable(findedStudent);
-                }else {
-                    returnStudentsToTable(readFile());
-                    JOptionPane.showMessageDialog(null, "There is no student having that ID", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
+                for (Student student : _students) {
+                    if (student.getId().equals(id)) {
+                        Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
+                                , student.getEmail(), student.getPhoneNumber());
+                        clearTableContents();
+                        returnFindedStudentsToTable(findedStudent);
+                    }
                 }
-            }
         }else if (!id.isEmpty() && !name.isEmpty()){
-            for (Student student: _students){
-                if (student.getId().equals(id) && student.getName().contains(name)){
-                    Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
-                            , student.getEmail(), student.getPhoneNumber());
-                    returnFindedStudentsToTable(findedStudent);
-                }else {
-                    clearTableContents();
-                    returnStudentsToTable(readFile());
-                    JOptionPane.showMessageDialog(null, "There is no student having that ID and Name", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
+                for (Student student : _students) {
+                    if (student.getId().equals(id) && student.getName().contains(name)) {
+                        Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
+                                , student.getEmail(), student.getPhoneNumber());
+                        returnFindedStudentsToTable(findedStudent);
+                    }
                 }
-            }
         }else if (id.isEmpty() && !name.isEmpty()){
-            for (Student student: _students){
-                if (student.getName().contains(name)){
-                    Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
-                            , student.getEmail(), student.getPhoneNumber());
-                    returnFindedStudentsToTable(findedStudent);
-                } else {
-                    returnStudentsToTable(readFile());
-                    JOptionPane.showMessageDialog(null, "There is no student having that Name", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
+                for (Student student: _students){
+                    if (student.getName().contains(name)){
+                        Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
+                                , student.getEmail(), student.getPhoneNumber());
+                        returnFindedStudentsToTable(findedStudent);
+                    }
                 }
-            }
-        }
-        else{
-            returnStudentsToTable(readFile());
-            JOptionPane.showMessageDialog(null, "Filling Search Field Required", "Error",
+        } else{
+                returnStudentsToTable(readFile());
+                JOptionPane.showMessageDialog(null, "Filling Search Field Required", "Error",
                     JOptionPane.ERROR_MESSAGE);
-            return;
+                return;
         }
     }
 
@@ -372,7 +355,9 @@ public class CRUD extends JFrame {
         sortARadioBtn.setEnabled(false);
         Collections.sort(_students, new Comparator<Student>() {
             public int compare(Student s1, Student s2) {
-                return s1.getId().compareTo(s2.getId());
+                int student1 = Integer.parseInt(s1.getId());
+                int student2 = Integer.parseInt(s2.getId());
+                return student1 - student2;
             }
         });
         writeToFile(_students);
@@ -386,7 +371,9 @@ public class CRUD extends JFrame {
         sortARadioBtn.setEnabled(true);
         Collections.sort(_students, new Comparator<Student>() {
             public int compare(Student s1, Student s2) {
-                return s2.getId().compareTo(s1.getId());
+                int student1 = Integer.parseInt(s1.getId());
+                int student2 = Integer.parseInt(s2.getId());
+                return student2 - student1;
             }
         });
         writeToFile(_students);
@@ -491,8 +478,7 @@ public class CRUD extends JFrame {
         try {
             date = LocalDate.parse(birthday, dtf);
             return true;
-        } catch (DateTimeParseException e) {
-        }
+        } catch (DateTimeParseException e) {}
         return false;
     }
     // Check email valid
