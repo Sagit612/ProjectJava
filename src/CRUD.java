@@ -128,6 +128,18 @@ public class CRUD extends JFrame {
         birthdayTextField.setEnabled(true);
     }
 
+
+    private void femaleRadioButton(ActionEvent e) {
+        femaleRadioButton.setEnabled(false);
+        maleRadioButton.setEnabled(true);
+    }
+
+
+    private void maleRadioButton(ActionEvent e) {
+        maleRadioButton.setEnabled(false);
+        femaleRadioButton.setEnabled(true);
+    }
+
     // add function
     private void addBtn(ActionEvent e) {
         // TODO add your code here
@@ -387,6 +399,25 @@ public class CRUD extends JFrame {
         defaultTableModel.setRowCount(0);
     }
 
+
+
+
+    // read file
+    public Object[] readFile(){
+        Object[] objects;
+        try {
+            FileReader fr = new FileReader(dbFile);
+            BufferedReader bufferedReader = new BufferedReader(fr);
+            // each lines to array
+            objects = bufferedReader.lines().toArray();
+            bufferedReader.close();
+            return objects;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // write from list to file
     public void writeToFile (ArrayList<Student> _users){
         try{
@@ -403,22 +434,6 @@ public class CRUD extends JFrame {
         }catch (Exception exception){
             exception.printStackTrace();
         }
-    }
-
-    // read file
-    public Object[] readFile(){
-        Object[] objects;
-        try {
-            FileReader fr = new FileReader(dbFile);
-            BufferedReader bufferedReader = new BufferedReader(fr);
-            // each lines to array
-            objects = bufferedReader.lines().toArray();
-            bufferedReader.close();
-            return objects;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     // return user by Object array
@@ -439,6 +454,10 @@ public class CRUD extends JFrame {
         String[] findedUser = user.toString().split(",");
         defaultTableModel.addRow(findedUser);
     }
+
+
+
+
 
     // Check Information of Student
     // Check ID
@@ -522,15 +541,7 @@ public class CRUD extends JFrame {
         return false;
     }
 
-    private void femaleRadioButton(ActionEvent e) {
-        femaleRadioButton.setEnabled(false);
-        maleRadioButton.setEnabled(true);
-    }
 
-    private void maleRadioButton(ActionEvent e) {
-        maleRadioButton.setEnabled(false);
-        femaleRadioButton.setEnabled(true);
-    }
 
     // interface
     private void initComponents() {
