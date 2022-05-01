@@ -1,3 +1,6 @@
+package View;
+
+import Controller.StudentController;
 import Database.Student;
 
 import javax.swing.*;
@@ -15,29 +18,22 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class CRUD extends JFrame {
-    ArrayList<Student> _students = new ArrayList<>();
-    String dbFile = "database.txt";
+public class MainFrame extends JFrame {
+    StudentController studentController = new StudentController();
 
-    public static void main(String[] args) throws IOException {
-        CRUD crud = new CRUD();
-        crud.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        crud.setVisible(true);
-    }
 
-    public CRUD() throws IOException {
+    public MainFrame() throws IOException {
         initComponents();
         DisableAllBtn();
-        returnStudentsToTable(readFile());
-        List<String> list = Files.readAllLines(new File(dbFile).toPath(), Charset.defaultCharset());
-        for (String line : list) {
-            String[] res = line.split(",");
-            Student user = new Student(res[0], res[1], res[2], res[3], res[4], res[5]);
-            _students.add(user);
-        }
-
+        returnStudentsToTable(studentController.readFile());
+        studentController.readDataFromFile();
     }
 
+
+    /*
+     *
+     * Button
+     **/
     // Clear text inside the text field when implement function
     private void Clear() {
         idTextField.setText("");
@@ -46,7 +42,6 @@ public class CRUD extends JFrame {
         emailTextField.setText("");
         phoneNumberTextField.setText("");
     }
-
     private void clearBtn(ActionEvent e) {
         idTextField.setText("");
         nameTextField.setText("");
@@ -56,7 +51,7 @@ public class CRUD extends JFrame {
     }
 
     // Disable all button when compile project
-    private void DisableAllBtn() {
+    public void DisableAllBtn() {
         idTextField.setEnabled(false);
         nameTextField.setEnabled(false);
         addBtn.setEnabled(false);
@@ -68,6 +63,7 @@ public class CRUD extends JFrame {
         phoneNumberTextField.setEnabled(false);
         emailTextField.setEnabled(false);
         birthdayTextField.setEnabled(false);
+        clearBtn.setEnabled(false);
     }
 
 
@@ -80,14 +76,18 @@ public class CRUD extends JFrame {
         idTextField.setEnabled(true);
         nameTextField.setEnabled(true);
         addBtn.setEnabled(true);
+        saveRadioButton.setSelected(true);
         saveRadioButton.setEnabled(false);
+        updateRadioButton.setSelected(false);
         deleteRadioButton.setEnabled(true);
+        deleteRadioButton.setSelected(true);
         updateRadioButton.setEnabled(true);
         femaleRadioButton.setEnabled(true);
         maleRadioButton.setEnabled(true);
         phoneNumberTextField.setEnabled(true);
         emailTextField.setEnabled(true);
         birthdayTextField.setEnabled(true);
+        clearBtn.setEnabled(true);
     }
 
     // Choose delete function
@@ -99,7 +99,10 @@ public class CRUD extends JFrame {
         updateBtn.setEnabled(false);
         deleteBtn.setEnabled(true);
         tblStudent.setEnabled(true);
+        deleteRadioButton.setSelected(true);
         deleteRadioButton.setEnabled(false);
+        saveRadioButton.setSelected(false);
+        updateRadioButton.setSelected(false);
         saveRadioButton.setEnabled(true);
         updateRadioButton.setEnabled(true);
         femaleRadioButton.setEnabled(false);
@@ -107,6 +110,7 @@ public class CRUD extends JFrame {
         phoneNumberTextField.setEnabled(false);
         emailTextField.setEnabled(false);
         birthdayTextField.setEnabled(false);
+        clearBtn.setEnabled(false);
     }
 
     // Choose update function
@@ -117,6 +121,7 @@ public class CRUD extends JFrame {
         updateBtn.setEnabled(true);
         tblStudent.setEnabled(true);
         nameTextField.setEnabled(true);
+        updateBtn.setSelected(true);
         updateRadioButton.setEnabled(false);
         deleteRadioButton.setEnabled(true);
         saveRadioButton.setEnabled(true);
@@ -126,21 +131,24 @@ public class CRUD extends JFrame {
         phoneNumberTextField.setEnabled(true);
         emailTextField.setEnabled(true);
         birthdayTextField.setEnabled(true);
+        clearBtn.setEnabled(false);
     }
 
 
     private void femaleRadioButton(ActionEvent e) {
+        femaleRadioButton.setSelected(true);
         femaleRadioButton.setEnabled(false);
         maleRadioButton.setEnabled(true);
     }
 
 
     private void maleRadioButton(ActionEvent e) {
+        maleRadioButton.setSelected(true);
         maleRadioButton.setEnabled(false);
         femaleRadioButton.setEnabled(true);
     }
 
-    // add function
+    // Add Button
     private void addBtn(ActionEvent e) {
         // TODO add your code here
         String id = idTextField.getText().trim();
@@ -160,46 +168,48 @@ public class CRUD extends JFrame {
         }
 
         if (!id.isEmpty() && !name.isEmpty() && gender != "" && !birthday.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty()) {
-            if (CheckId(id)) {
+            if (studentController.CheckId(id)) {
                 JOptionPane.showMessageDialog(null, "ID is duplicated", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckNameValid(name)) {
+            } else if (!studentController.CheckNameValid(name)) {
                 JOptionPane.showMessageDialog(null, "Name is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckIdValid(id)) {
+            } else if (!studentController.CheckIdValid(id)) {
                 JOptionPane.showMessageDialog(null, "ID is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckBirthday(birthday)) {
+            } else if (!studentController.CheckBirthday(birthday)) {
                 JOptionPane.showMessageDialog(null, "Birthday is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((CheckEmail(email))) {
+            } else if ((studentController.CheckEmail(email))) {
                 JOptionPane.showMessageDialog(null, "Email is duplicated", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((!CheckEmailValid(email))) {
+            } else if ((!studentController.CheckEmailValid(email))) {
                 JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((!CheckPhoneNumberValid(phoneNumber))) {
-                JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
+            } else if ((!studentController.CheckPhoneNumberValid(phoneNumber))) {
+                JOptionPane.showMessageDialog(null, "Phone number is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((CheckPhone(phoneNumber))) {
-                JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
+            } else if ((studentController.CheckPhone(phoneNumber))) {
+                JOptionPane.showMessageDialog(null, "Phone is duplicated", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-
-            _students.add(new Student(id, name, gender, birthday, email, phoneNumber));
-            writeToFile(_students);
+            Student student = new Student(id, name, gender, birthday,email, phoneNumber);
+            studentController.AddStudent(student);
             Clear();
             clearTableContents();
-            returnStudentsToTable(readFile());
+            returnStudentsToTable(studentController.readFile());
+            JOptionPane.showMessageDialog(null, "ADD SUCCESSFULL!!!", "Successfull",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+
         } else {
             if (id.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill ID Required", "Error",
@@ -230,22 +240,33 @@ public class CRUD extends JFrame {
         }
     }
 
-    // delete function
-    private void deleteBtn(ActionEvent e) throws Exception {
+    // Delete Button
+    private void deleteBtn(ActionEvent e) {
         // TODO add your code here
         String id = idTextField.getText().trim();
-        for (int i = 0; i < _students.size(); i++) {
-            if (_students.get(i).getId().equals(id)) {
-                _students.remove(i);
-            }
+        if (!id.isEmpty()){
+//            for (int i = 0; i < _students.size(); i++) {
+//                if (_students.get(i).getId().equals(id)) {
+//                    _students.remove(i);
+//                }
+//            }
+            studentController.DeleteStudent(id);
+            Clear();
+            clearTableContents();
+            returnStudentsToTable(studentController.readFile());
+            JOptionPane.showMessageDialog(null, "DELETE SUCCESSFULL!!!", "Successfull",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
-        writeToFile(_students);
-        Clear();
-        clearTableContents();
-        returnStudentsToTable(readFile());
+        else{
+            JOptionPane.showMessageDialog(null, "Please choose student from table below", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
     }
 
-    // update function
+    // Update Button
     private void updateBtn(ActionEvent e) {
         // TODO add your code here
         String id = idTextField.getText().trim();
@@ -264,36 +285,40 @@ public class CRUD extends JFrame {
             gender = "";
         }
         if (!id.isEmpty() && !name.isEmpty() && gender != "" && !birthday.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty()) {
-            if (!CheckNameValid(name)) {
+            if (!studentController.CheckNameValid(name)) {
                 JOptionPane.showMessageDialog(null, "Name is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckBirthday(birthday)) {
+            } else if (!studentController.CheckBirthday(birthday)) {
                 JOptionPane.showMessageDialog(null, "Birthday is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckEmailValid(email)) {
+            } else if (!studentController.CheckEmailValid(email)) {
                 JOptionPane.showMessageDialog(null, "Email is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if (!CheckPhoneNumberValid(phoneNumber)){
+            } else if (!studentController.CheckPhoneNumberValid(phoneNumber)){
                 JOptionPane.showMessageDialog(null, "Phone is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            for (Student student : _students) {
-                if (student.getId().equals(id)) {
-                    student.setName(name);
-                    student.setGender(gender);
-                    student.setBirthday(birthday);
-                    student.setEmail(email);
-                    student.setPhoneNumber(phoneNumber);
-                }
-            }
-            writeToFile(_students);
+//            for (Student student : _students) {
+//                if (student.getId().equals(id)) {
+//                    student.setName(name);
+//                    student.setGender(gender);
+//                    student.setBirthday(birthday);
+//                    student.setEmail(email);
+//                    student.setPhoneNumber(phoneNumber);
+//                }
+//            }
+//            writeToFile(_students);
+            StudentController.UpdateStudent(id, name, gender, birthday, email, phoneNumber);
             Clear();
             clearTableContents();
-            returnStudentsToTable(readFile());
+            returnStudentsToTable(studentController.readFile());
+            JOptionPane.showMessageDialog(null, "UPDATE SUCCESSFULL!!!", "Successfull",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
         } else {
             if (id.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Fill ID Required", "Error",
@@ -321,230 +346,99 @@ public class CRUD extends JFrame {
                 return;
             }
         }
+
     }
 
-    // search function
+    // search Button
     private void searchBtn(ActionEvent e) {
         String id = searchIdTextField.getText().trim();
         String name = searchNameTextField.getText().trim();
         clearTableContents();
         if (!id.isEmpty() && name.isEmpty()){
-                for (Student student : _students) {
-                    if (student.getId().equals(id)) {
-                        Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
-                                , student.getEmail(), student.getPhoneNumber());
-                        clearTableContents();
-                        returnFindedStudentsToTable(findedStudent);
-                    }
+            for (Student student : studentController._students) {
+                if (student.getId().equals(id)) {
+                    Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
+                            , student.getEmail(), student.getPhoneNumber());
+                    clearTableContents();
+                    returnFindedStudentsToTable(findedStudent);
                 }
+            }
         }else if (!id.isEmpty() && !name.isEmpty()){
-                for (Student student : _students) {
-                    if (student.getId().equals(id) && student.getName().contains(name)) {
-                        Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
-                                , student.getEmail(), student.getPhoneNumber());
-                        returnFindedStudentsToTable(findedStudent);
-                    }
+            for (Student student : studentController._students) {
+                if (student.getId().equals(id) && student.getName().contains(name)) {
+                    Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
+                            , student.getEmail(), student.getPhoneNumber());
+                    returnFindedStudentsToTable(findedStudent);
                 }
+            }
         }else if (id.isEmpty() && !name.isEmpty()){
-                for (Student student: _students){
-                    if (student.getName().contains(name)){
-                        Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
-                                , student.getEmail(), student.getPhoneNumber());
-                        returnFindedStudentsToTable(findedStudent);
-                    }
+            for (Student student: studentController._students){
+                if (student.getName().contains(name)){
+                    Student findedStudent = new Student(student.getId(), student.getName(), student.getGender(), student.getBirthday()
+                            , student.getEmail(), student.getPhoneNumber());
+                    returnFindedStudentsToTable(findedStudent);
                 }
+            }
         } else{
-                returnStudentsToTable(readFile());
-                JOptionPane.showMessageDialog(null, "Filling Search Field Required", "Error",
+            returnStudentsToTable(studentController.readFile());
+            JOptionPane.showMessageDialog(null, "Filling Search Field Required", "Error",
                     JOptionPane.ERROR_MESSAGE);
-                return;
+            return;
         }
+
     }
 
-    // sort ascending by ID function
+    // sort ascending by ID Button
     private void sortARadioBtn(ActionEvent e){
+        sortARadioBtn.setSelected(true);
         sortDRadioBtn.setEnabled(true);
         sortARadioBtn.setEnabled(false);
-        Collections.sort(_students, new Comparator<Student>() {
-            public int compare(Student s1, Student s2) {
-                int student1 = Integer.parseInt(s1.getId());
-                int student2 = Integer.parseInt(s2.getId());
-                return student1 - student2;
-            }
-        });
-        writeToFile(_students);
+        studentController.SortStudentAscendingById();
         clearTableContents();
-        returnStudentsToTable(readFile());
+        returnStudentsToTable(studentController.readFile());
     }
 
-    // sort descending by ID function
+    // sort descending by ID Button
     private void sortDRadioBtn(ActionEvent e) {
+        sortDRadioBtn.setSelected(true);
         sortDRadioBtn.setEnabled(false);
         sortARadioBtn.setEnabled(true);
-        Collections.sort(_students, new Comparator<Student>() {
-            public int compare(Student s1, Student s2) {
-                int student1 = Integer.parseInt(s1.getId());
-                int student2 = Integer.parseInt(s2.getId());
-                return student2 - student1;
-            }
-        });
-        writeToFile(_students);
+        studentController.SortStudentDescendingById();
         clearTableContents();
-        returnStudentsToTable(readFile());
+        returnStudentsToTable(studentController.readFile());
+
     }
 
-    // clear all the contents of table
+    // clear all the contents of table tutton
     public void clearTableContents(){
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblStudent.getModel();
         defaultTableModel.setRowCount(0);
     }
 
-
-
-
-    // read file
-    public Object[] readFile(){
-        Object[] objects;
-        try {
-            FileReader fr = new FileReader(dbFile);
-            BufferedReader bufferedReader = new BufferedReader(fr);
-            // each lines to array
-            objects = bufferedReader.lines().toArray();
-            bufferedReader.close();
-            return objects;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // write from list to file
-    public void writeToFile (ArrayList<Student> _users){
-        try{
-            FileWriter fw = new FileWriter(dbFile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            for (Student user: _users
-            ) {
-                bw.write(user.toString());
-                bw.newLine();
-            }
-            bw.close();
-            fw.close();
-
-        }catch (Exception exception){
-            exception.printStackTrace();
-        }
-    }
+    /*------ End button ------*/
 
     // return user by Object array
     public void returnStudentsToTable(Object[] objects){
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblStudent.getModel();
-        int i = 0;
-        while(i < objects.length) {
+        for (int i = 0; i < objects.length; i++) {
             String row = objects[i].toString().trim();
             String[] rows = row.split(",");
             defaultTableModel.addRow(rows);
-            i++;
         }
     }
 
     // return user by Object
-    public void returnFindedStudentsToTable(Student user){
+    public void returnFindedStudentsToTable(Student student){
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblStudent.getModel();
-        String[] findedUser = user.toString().split(",");
+        String[] findedUser = student.toString().split(",");
         defaultTableModel.addRow(findedUser);
     }
 
-
-
-
-
-    // Check Information of Student
-    // Check ID
-    public boolean CheckId(String id){
-            for (Student user : _students) {
-                if (user.getId().equals(id)) {
-                    return true;
-                }
-        }return false;
-    }
-    // Check ID valid
-    public boolean CheckIdValid(String id){
-        String regexPattern = "[0-9]+";
-        boolean validId = Pattern.compile(regexPattern)
-                .matcher(id)
-                .matches();
-        if (validId){
-            return true;
-        }
-        return false;
-    }
-    // Check name valid
-    public boolean CheckNameValid(String name){
-        String regexPattern = "[^0-9]+";
-        boolean validName = Pattern.compile(regexPattern)
-                .matcher(name)
-                .matches();
-        if(validName){
-            return true;
-        }
-        return false;
-    }
-    // Check birthday
-    public boolean CheckBirthday(String birthday){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
-        LocalDate date = null;
-        try {
-            date = LocalDate.parse(birthday, dtf);
-            return true;
-        } catch (DateTimeParseException e) {}
-        return false;
-    }
-    // Check email valid
-    public boolean CheckEmailValid(String email){
-        String regexPattern = "^(.+)@(\\S+)$";
-        boolean validEmail = Pattern.compile(regexPattern)
-                .matcher(email)
-                .matches();
-        if (validEmail){
-            return true;
-        }
-        return false;
-    }
-    // Check email duplicated
-    public boolean CheckEmail(String email){
-
-        for (Student user : _students) {
-            if (user.getEmail().equals(email)) {
-                return true;
-            }
-        }return false;
-    }
-
-    // Check phone number is duplicated
-    public boolean CheckPhone(String phoneNumber){
-        for (Student user : _students) {
-            if (user.getEmail().equals(phoneNumber)) {
-                return true;
-            }
-        }return false;
-    }
-    // Check phone number is valid
-    public boolean CheckPhoneNumberValid(String phoneNumber){
-        String regexPattern = "[0-9]{10,11}";
-        boolean validEmail = Pattern.compile(regexPattern)
-                .matcher(phoneNumber)
-                .matches();
-        if (validEmail){
-            return true;
-        }
-        return false;
-    }
-
+    /*------ End Function ------*/
 
 
     // interface
-    private void initComponents() {
+    public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Quoc
         panel4 = new JPanel();
@@ -585,7 +479,7 @@ public class CRUD extends JFrame {
         //======== panel4 ========
         {
             panel4.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.
-                    EmptyBorder(0,0,0,0), "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e",javax.swing.border.TitledBorder.CENTER,javax.swing
+                    EmptyBorder(0,0,0,0), "Student mananagement",javax.swing.border.TitledBorder.CENTER,javax.swing
                     .border.TitledBorder.BOTTOM,new java.awt.Font("Dialo\u0067",java.awt.Font.BOLD,12),
                     java.awt.Color.red),panel4. getBorder()));panel4. addPropertyChangeListener(new java.beans.PropertyChangeListener()
         {@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("borde\u0072".equals(e.getPropertyName()))
@@ -815,13 +709,19 @@ public class CRUD extends JFrame {
                     }
 
                     private void tblStudentMouseClicked(MouseEvent e) {
-                        int i = tblStudent.getSelectedRow();
-                        TableModel model = tblStudent.getModel();
-                        idTextField.setText(model.getValueAt(i, 0).toString());
-                        nameTextField.setText(model.getValueAt(i, 1).toString());
-                        birthdayTextField.setText(model.getValueAt(i, 3).toString());
-                        emailTextField.setText(model.getValueAt(i, 4).toString());
-                        phoneNumberTextField.setText(model.getValueAt(i, 5).toString());
+                        if (deleteRadioButton.isSelected() || updateRadioButton.isSelected()) {
+                            int i = tblStudent.getSelectedRow();
+                            TableModel model = tblStudent.getModel();
+                            idTextField.setText(model.getValueAt(i, 0).toString());
+                            nameTextField.setText(model.getValueAt(i, 1).toString());
+                            birthdayTextField.setText(model.getValueAt(i, 3).toString());
+                            emailTextField.setText(model.getValueAt(i, 4).toString());
+                            phoneNumberTextField.setText(model.getValueAt(i, 5).toString());
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Please choose delete radio button or update radio button to click row in table", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
 
                 });
