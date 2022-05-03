@@ -168,7 +168,7 @@ public class MainFrame extends JFrame {
         }
 
         if (!id.isEmpty() && !name.isEmpty() && gender != "" && !birthday.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty()) {
-            if (studentController.CheckId(id)) {
+            if (!studentController.CheckId(id)) {
                 JOptionPane.showMessageDialog(null, "ID is duplicated", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -184,7 +184,7 @@ public class MainFrame extends JFrame {
                 JOptionPane.showMessageDialog(null, "Birthday is invalid", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
-            } else if ((studentController.CheckEmail(email))) {
+            } else if ((!studentController.CheckEmail(email))) {
                 JOptionPane.showMessageDialog(null, "Email is duplicated", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -302,16 +302,6 @@ public class MainFrame extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-//            for (Student student : _students) {
-//                if (student.getId().equals(id)) {
-//                    student.setName(name);
-//                    student.setGender(gender);
-//                    student.setBirthday(birthday);
-//                    student.setEmail(email);
-//                    student.setPhoneNumber(phoneNumber);
-//                }
-//            }
-//            writeToFile(_students);
             StudentController.UpdateStudent(id, name, gender, birthday, email, phoneNumber);
             Clear();
             clearTableContents();
@@ -695,7 +685,7 @@ public class MainFrame extends JFrame {
                         nameOfColumn
                 ){
                     boolean[] canEdit = new boolean [] {
-                            false, false, false
+                            false, false, false, false, false
                     };
 
                     public boolean isCellEditable(int rowIndex, int columnIndex) {
